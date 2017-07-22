@@ -30,7 +30,7 @@ namespace DatabaseCompare
             {
                 versionNumber = db.SqlQuery<SchemaInfo>("SELECT Version from SchemaInfo ORDER BY Version DESC LIMIT 1").First().Version;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 shouldCreateSchemaTable = true;
             }
