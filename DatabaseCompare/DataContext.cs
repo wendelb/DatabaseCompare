@@ -1,29 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DatabaseCompare
 {
-    class DataContext : DbContext
+    public class DataContext : DbContext
     {
         public DbSet<SchemaInfo> SchemaInfo { get; set; }
         public DbSet<DBSchema> Fields { get; set; }
     }
 
     [Table("SchemaInfo")]
-    class SchemaInfo
+    public class SchemaInfo
     {
         [Key]
         public int Version { get; set; }
     }
 
     [Table("DBSchema")]
-    class DBSchema
+    public class DBSchema
     {
         [Key]
         public int id { get; set; }
