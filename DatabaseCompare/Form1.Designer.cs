@@ -1,6 +1,6 @@
 ﻿namespace DatabaseCompare
 {
-    partial class Form1
+    partial class FormMain
     {
         /// <summary>
         /// Erforderliche Designervariable.
