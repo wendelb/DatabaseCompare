@@ -13,13 +13,20 @@ namespace DatabaseCompare.RemoteDataProvider
 
         public MySQLDataProvider(DataContext db) : base(db)
         {
-            client = new MySqlConnection();
         }
 
         override protected void Connect()
         {
+            client = new MySqlConnection();
             client.ConnectionString = this.ConnectionString;
             client.Open();
+        }
+
+        protected override void Disconnect()
+        {
+            client.Close();
+            client.Dispose();
+            client = null;
         }
 
         override protected List<string> ListDatabases()

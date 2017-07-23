@@ -27,6 +27,7 @@ namespace DatabaseCompare.RemoteDataProvider
         }
 
         protected abstract void Connect();
+        protected abstract void Disconnect();
 
         protected abstract List<string> ListDatabases();
 
@@ -62,6 +63,10 @@ namespace DatabaseCompare.RemoteDataProvider
                 {
                     Transaction.Rollback();
                     throw;
+                }
+                finally
+                {
+                    this.Disconnect();
                 }
             }
         }
