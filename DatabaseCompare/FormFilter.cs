@@ -44,6 +44,13 @@ namespace DatabaseCompare
             {
                 CBxSchema.Items.Add(s.Schema);
             }
+
+            // If there is only 1 Schema, skip to next filter
+            if (query.Count() == 1)
+            {
+                CBxSchema.SelectedItem = CBxSchema.Items[0];
+                populateTable();
+            }
         }
 
         private void populateTable()
@@ -71,6 +78,13 @@ namespace DatabaseCompare
 
             CBxTable.Enabled = true;
 
+            // If there is only 1 Table, skip to next filter
+            if (query.Count() == 1)
+            {
+                CBxTable.SelectedItem = CBxTable.Items[0];
+                populateField();
+            }
+
         }
 
         private void populateField()
@@ -94,6 +108,12 @@ namespace DatabaseCompare
             }
 
             CBxField.Enabled = true;
+
+            // If there is only 1 Table, put it into the Combobox
+            if (query.Count() == 1)
+            {
+                CBxField.SelectedItem = CBxField.Items[0];
+            }
         }
 
         private void CBxSchema_SelectedIndexChanged(object sender, EventArgs e)
