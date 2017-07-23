@@ -62,7 +62,11 @@ ORDER BY table_schema, table_name, column_name, ordinal_position";
                 {
                     while (reader.Read())
                     {
-                        db.Fields.Add(new DBSchema { DatabaseName = database, Schema = reader.GetString(0), TableName = reader.GetString(1), FieldName = reader.GetString(2), DataType = reader.GetString(3) });
+                        // Filter for Schema-Regex
+                        if (this.MatchSchemaRegex.Match(reader.GetString(0)).Success)
+                        {
+                            db.Fields.Add(new DBSchema { DatabaseName = database, Schema = reader.GetString(0), TableName = reader.GetString(1), FieldName = reader.GetString(2), DataType = reader.GetString(3) });
+                        }
                     }
                 }
             }
