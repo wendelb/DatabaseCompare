@@ -1,4 +1,4 @@
-﻿using System;
+﻿using DatabaseCompare.Exceptions;
 using System.Configuration;
 
 namespace DatabaseCompare.RemoteDataProvider
@@ -19,7 +19,7 @@ namespace DatabaseCompare.RemoteDataProvider
             }
             else
             {
-                throw new Exception(String.Format("DataProvider {0} is unknown", DataProvider));
+                throw new InvlidConfigurationException("RemoteDataProvider", DataProvider);
             }
         }
     }

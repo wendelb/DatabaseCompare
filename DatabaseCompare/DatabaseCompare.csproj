@@ -101,6 +101,7 @@
   <ItemGroup>
     <Compile Include="DataContext.cs" />
     <Compile Include="DisplayFilter.cs" />
+    <Compile Include="Exceptions\InvlidConfigurationException.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
