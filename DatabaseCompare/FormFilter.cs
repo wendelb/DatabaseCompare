@@ -9,6 +9,10 @@ namespace DatabaseCompare
     {
         private DataContext db;
 
+        public string filterSchema { get; private set; }
+        public string filterTable { get; private set; }
+        public string filterColumn { get; private set; }
+
         public FormFilter(DataContext db)
         {
             this.db = db;
@@ -124,6 +128,14 @@ namespace DatabaseCompare
         private void CBxTable_SelectedIndexChanged(object sender, EventArgs e)
         {
             populateField();
+        }
+
+        private void FormFilter_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Save the user selection
+            filterSchema = CBxSchema.SelectedItem?.ToString();
+            filterTable = CBxTable.SelectedItem?.ToString();
+            filterColumn = CBxField.SelectedItem?.ToString();
         }
     }
 }

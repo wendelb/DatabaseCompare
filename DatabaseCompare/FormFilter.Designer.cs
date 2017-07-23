@@ -41,16 +41,6 @@
             label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // CBxSchema
-            // 
-            this.CBxSchema.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CBxSchema.FormattingEnabled = true;
-            this.CBxSchema.Location = new System.Drawing.Point(15, 25);
-            this.CBxSchema.Name = "CBxSchema";
-            this.CBxSchema.Size = new System.Drawing.Size(121, 21);
-            this.CBxSchema.TabIndex = 0;
-            this.CBxSchema.SelectedIndexChanged += new System.EventHandler(this.CBxSchema_SelectedIndexChanged);
-            // 
             // label1
             // 
             label1.AutoSize = true;
@@ -68,6 +58,25 @@
             label2.Size = new System.Drawing.Size(37, 13);
             label2.TabIndex = 2;
             label2.Text = "Table:";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new System.Drawing.Point(266, 9);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(32, 13);
+            label3.TabIndex = 4;
+            label3.Text = "Field:";
+            // 
+            // CBxSchema
+            // 
+            this.CBxSchema.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CBxSchema.FormattingEnabled = true;
+            this.CBxSchema.Location = new System.Drawing.Point(15, 25);
+            this.CBxSchema.Name = "CBxSchema";
+            this.CBxSchema.Size = new System.Drawing.Size(121, 21);
+            this.CBxSchema.TabIndex = 0;
+            this.CBxSchema.SelectedIndexChanged += new System.EventHandler(this.CBxSchema_SelectedIndexChanged);
             // 
             // CBxTable
             // 
@@ -89,15 +98,6 @@
             this.CBxField.Name = "CBxField";
             this.CBxField.Size = new System.Drawing.Size(121, 21);
             this.CBxField.TabIndex = 5;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new System.Drawing.Point(266, 9);
-            label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(32, 13);
-            label3.TabIndex = 4;
-            label3.Text = "Field:";
             // 
             // BtnOK
             // 
@@ -135,6 +135,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "FormFilter";
             this.Text = "Setup Filter";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormFilter_FormClosing);
             this.Load += new System.EventHandler(this.FormFilter_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
