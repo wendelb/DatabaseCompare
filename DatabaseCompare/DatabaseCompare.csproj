@@ -99,6 +99,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemoteDataProvider\GenericDataProvider.cs" />
     <Compile Include="RemoteDataProvider\MySQLDataProvider.cs" />
+    <Compile Include="RemoteDataProvider\PostgreSQLDataProvider.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
