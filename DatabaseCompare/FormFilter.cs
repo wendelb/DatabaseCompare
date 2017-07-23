@@ -7,6 +7,9 @@ namespace DatabaseCompare
 {
     public partial class FormFilter : Form
     {
+        /// <summary>
+        /// Reference to the Database Connection. This will be used to generate the distinct values
+        /// </summary>
         private DataContext db;
 
         public string filterSchema { get; private set; }
@@ -130,9 +133,16 @@ namespace DatabaseCompare
             populateField();
         }
 
+        /// <summary>
+        /// Event Handler for the Closing Event on the Form
+        /// Publishes the selected values.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FormFilter_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Save the user selection
+            // ? -> Allow for NULL-Selections
             filterSchema = CBxSchema.SelectedItem?.ToString();
             filterTable = CBxTable.SelectedItem?.ToString();
             filterColumn = CBxField.SelectedItem?.ToString();

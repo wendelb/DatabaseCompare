@@ -10,12 +10,36 @@ namespace DatabaseCompare.RemoteDataProvider
 {
     abstract class GenericDataProvider
     {
+        /// <summary>
+        /// The Connection String. To be used in child classes
+        /// </summary>
         protected string ConnectionString;
+
+        /// <summary>
+        /// The Regex to be applied against Databases
+        /// </summary>
         protected Regex MatchDatabasesRegex;
+
+        /// <summary>
+        /// The Regex to be applied against Schemas (if Child Class supports it)
+        /// </summary>
         protected Regex MatchSchemaRegex;
+
+        /// <summary>
+        /// Reference to the Database
+        /// </summary>
         protected DataContext db;
 
+        /// <summary>
+        /// Will be triggered when the list of databases has been read and filtered
+        /// </summary>
         public Action<int> OnMaxKnown { get; set; }
+
+        /// <summary>
+        /// Informs the caller about the current progress
+        /// * Param 1: Current Index (1-indexed)
+        /// * Param 2: Current Database Name
+        /// </summary>
         public Action<int, string> OnProgress { get; set; }
 
         public GenericDataProvider(DataContext db)

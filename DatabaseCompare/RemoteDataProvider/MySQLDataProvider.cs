@@ -47,6 +47,7 @@ namespace DatabaseCompare.RemoteDataProvider
 
         override protected void LoadColumnsFromDatabase(string database)
         {
+            // In MySQL all required information is inside the INFORMATION_SCHEMA Database
             client.ChangeDatabase("INFORMATION_SCHEMA");
 
             using (MySqlCommand command = client.CreateCommand())

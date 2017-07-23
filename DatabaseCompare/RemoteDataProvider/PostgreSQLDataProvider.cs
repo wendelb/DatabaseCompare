@@ -48,6 +48,7 @@ namespace DatabaseCompare.RemoteDataProvider
 
         protected override void LoadColumnsFromDatabase(string database)
         {
+            // In PostgreSQL you have to connect to every database to read the Schema
             client.ChangeDatabase(database);
 
             using (NpgsqlCommand command = client.CreateCommand())

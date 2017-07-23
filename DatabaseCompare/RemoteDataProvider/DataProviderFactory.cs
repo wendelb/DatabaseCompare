@@ -5,6 +5,11 @@ namespace DatabaseCompare.RemoteDataProvider
 {
     class DataProviderFactory
     {
+        /// <summary>
+        /// Create a Data Provider. This Factory is configured via App.config
+        /// </summary>
+        /// <param name="db">Reference to the DataContect</param>
+        /// <returns></returns>
         public static GenericDataProvider createDataProvider(DataContext db)
         {
             string DataProvider = ConfigurationManager.AppSettings["RemoteDataProvider"];

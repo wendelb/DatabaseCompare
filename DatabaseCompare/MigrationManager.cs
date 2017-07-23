@@ -4,8 +4,14 @@ using System.Linq;
 
 namespace DatabaseCompare
 {
+    /// <summary>
+    /// Migration Manager: Replacement for EF-Migrations (they don't work with SQLite)
+    /// </summary>
     class MigrationManager
     {
+        /// <summary>
+        /// This is the current migration. On opening a database it will be transformed to this level!
+        /// </summary>
         private const int CurrentMigration = 1;
 
         public MigrationManager()
@@ -21,6 +27,11 @@ namespace DatabaseCompare
             }
         }
 
+        /// <summary>
+        /// Ask the database about the current migration status
+        /// </summary>
+        /// <param name="db">A reference to a Entity.Data.Database Object</param>
+        /// <returns>The current migration level</returns>
         private int GetSchemaVersion(Database db)
         {
             bool shouldCreateSchemaTable = false;
@@ -45,6 +56,11 @@ namespace DatabaseCompare
             return versionNumber;
         }
 
+        /// <summary>
+        /// Apply all missing migrations. Add new migrations here
+        /// </summary>
+        /// <param name="db"></param>
+        /// <param name="currentVersion"></param>
         private void applyMigrations(DataContext db, int currentVersion)
         {
             if (currentVersion > CurrentMigration)
