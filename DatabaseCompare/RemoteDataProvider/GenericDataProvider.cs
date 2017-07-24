@@ -21,9 +21,14 @@ namespace DatabaseCompare.RemoteDataProvider
         protected Regex MatchDatabasesRegex;
 
         /// <summary>
-        /// The Regex to be applied against Schemas (if Child Class supports it)
+        /// Should there be a filter against the <see cref="MatchSchema"/> list?
         /// </summary>
-        protected Regex MatchSchemaRegex;
+        protected bool FilterSchema;
+
+        /// <summary>
+        /// The List to be the base to match Schemata against (if Child Class supports it)
+        /// </summary>
+        protected List<string> MatchSchema;
 
         /// <summary>
         /// Reference to the Database
@@ -47,7 +52,7 @@ namespace DatabaseCompare.RemoteDataProvider
             this.ConnectionString = ConfigurationManager.AppSettings["RemoteDataConnectionString"];
             this.db = db;
             this.MatchDatabasesRegex = new Regex(ConfigurationManager.AppSettings["RemoteDataDatabaseRegex"]);
-            this.MatchSchemaRegex = new Regex(ConfigurationManager.AppSettings["RemoteDataSchemaRegex"]);
+            this.MatchSchema = Properties.Settings.Default.RemoteDataSchemaList.Cast<string>().ToList();
         }
 
         protected abstract void Connect();

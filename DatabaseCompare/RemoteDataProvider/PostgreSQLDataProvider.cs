@@ -63,8 +63,9 @@ ORDER BY table_schema, table_name, column_name, ordinal_position";
                 {
                     while (reader.Read())
                     {
-                        // Filter for Schema-Regex
-                        if (this.MatchSchemaRegex.Match(reader.GetString(0)).Success)
+                        // Filter for Schema-Regex (only applied if user wants it this way)
+                        // The || is short-circuit enabled!
+                        if ((!this.FilterSchema) || (this.MatchSchema.Contains(reader.GetString(0))))
                         {
                             db.Fields.Add(new DBSchema { DatabaseName = database, Schema = reader.GetString(0), TableName = reader.GetString(1), FieldName = reader.GetString(2), DataType = reader.GetString(3) });
                         }
