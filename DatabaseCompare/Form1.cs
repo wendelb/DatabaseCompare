@@ -24,7 +24,7 @@ namespace DatabaseCompare
                 this.db = new DataContext();
                 this.filter = new DisplayFilter(this.db.Fields);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("An error occured during initialization:" + Environment.NewLine + ex.Message + Environment.NewLine + Environment.NewLine + ex.StackTrace, "Database Compare: Failed to load from remote database", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(1);
@@ -60,6 +60,7 @@ namespace DatabaseCompare
                     filter.filterSchema = formFilter.filterSchema;
                     filter.filterTable = formFilter.filterTable;
                     filter.filterColumn = formFilter.filterColumn;
+                    filter.filterForDifferences = false;
 
                     // Update Checkboxes
                     showAllFieldsToolStripMenuItem.Checked = false;
@@ -115,7 +116,7 @@ namespace DatabaseCompare
 
                 await Task.Run(() => DataPrivoder.RefreshColumns());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("An error occured while loading data from the remote database" + Environment.NewLine + ex.Message + Environment.NewLine + Environment.NewLine + ex.StackTrace, "Database Compare: Failed to load from remote database", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -140,6 +141,20 @@ namespace DatabaseCompare
 
             // Clear the filter
             filter.Clear();
+
+            // Refresh the View
+            RefreshFieldsView();
+        }
+
+        private void showDifferencesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Update Checkboxes
+            showAllFieldsToolStripMenuItem.Checked = false;
+            filterResultsToolStripMenuItem.Checked = false;
+            showDifferencesToolStripMenuItem.Checked = true;
+
+            // Tell the filter
+            filter.filterForDifferences = true;
 
             // Refresh the View
             RefreshFieldsView();

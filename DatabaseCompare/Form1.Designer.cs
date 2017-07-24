@@ -73,7 +73,7 @@
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
             this.quitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.quitToolStripMenuItem.Text = "&Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
@@ -113,10 +113,10 @@
             // 
             // showDifferencesToolStripMenuItem
             // 
-            this.showDifferencesToolStripMenuItem.Enabled = false;
             this.showDifferencesToolStripMenuItem.Name = "showDifferencesToolStripMenuItem";
             this.showDifferencesToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.showDifferencesToolStripMenuItem.Text = "Show Differences";
+            this.showDifferencesToolStripMenuItem.Click += new System.EventHandler(this.showDifferencesToolStripMenuItem_Click);
             // 
             // showAllFieldsToolStripMenuItem
             // 
