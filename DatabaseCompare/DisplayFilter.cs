@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DatabaseCompare
 {
@@ -70,7 +67,7 @@ INNER JOIN (
 	GROUP BY d1.Schema, d1.TableName, d1.FieldName, d1.DataType
 	HAVING COUNT(*) < @numDB
 ) d3 ON d3.Schema = d4.Schema AND d3.TableName = d4.TableName AND d3.FieldName = d4.FieldName and d3.DataType = d4.DataType
-ORDER BY d4.Schema, d4.TableName, d4.FieldName, d4.DatabaseName, d4.DataType", new SqlParameter("@numDB", NumberOfDatabases));
+ORDER BY d4.Schema, d4.TableName, d4.FieldName, d4.DatabaseName, d4.DataType", new SQLiteParameter("@numDB", NumberOfDatabases));
             }
 
             return Result;
