@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Data.SQLite;
 using System.Linq;
 
@@ -22,11 +24,11 @@ namespace DatabaseCompare
             this.Clear();
         }
 
-        public IEnumerable<DBSchema> applyFilter()
+        public List<DBSchema> applyFilter()
         {
-            IEnumerable<DBSchema> Result = BaseCollection;
             if (!filterForDifferences)
             {
+                IQueryable<DBSchema> Result = BaseCollection;
                 if (filterSchema != null)
                 {
                     Result = Result.Where(i => (i.Schema == filterSchema));
@@ -47,11 +49,15 @@ namespace DatabaseCompare
                     .ThenBy(i => i.Schema)
                     .ThenBy(i => i.TableName)
                     .ThenBy(i => i.FieldName);
+
+                return Result.ToList();
             }
-            else {
+            else
+            {
                 int NumberOfDatabases = BaseCollection.Select(i => i.DatabaseName).Distinct().Count();
 
-                Result = BaseCollection.SqlQuery(@"SELECT d4.DatabaseName, d4.Schema, d4.TableName, d4.FieldName, d4.DataType
+
+                List<DBSchema> Result = BaseCollection.SqlQuery(@"SELECT d4.*
 FROM DBschema d4
 INNER JOIN (
 	-- Columns with different definitions
@@ -67,10 +73,9 @@ INNER JOIN (
 	GROUP BY d1.Schema, d1.TableName, d1.FieldName, d1.DataType
 	HAVING COUNT(*) < @numDB
 ) d3 ON d3.Schema = d4.Schema AND d3.TableName = d4.TableName AND d3.FieldName = d4.FieldName and d3.DataType = d4.DataType
-ORDER BY d4.Schema, d4.TableName, d4.FieldName, d4.DatabaseName, d4.DataType", new SQLiteParameter("@numDB", NumberOfDatabases));
+ORDER BY d4.Schema, d4.TableName, d4.FieldName, d4.DatabaseName, d4.DataType", new SQLiteParameter("numDB", NumberOfDatabases)).ToList();
+                return Result;
             }
-
-            return Result;
         }
 
         public void Clear()
