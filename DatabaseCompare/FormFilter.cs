@@ -42,7 +42,7 @@ namespace DatabaseCompare
             CBxField.Enabled = false;
 
             // Fetch new Data
-            var query = db.Fields.Select(element => new
+            var query = db.Columns.Select(element => new
             {
                 Schema = (string)element.Schema
             }).Distinct();
@@ -73,7 +73,7 @@ namespace DatabaseCompare
             CBxField.Enabled = false;
 
             // Fetch new Data
-            var query = db.Fields.Where(d => (d.Schema == schema)).Select(element => new
+            var query = db.Columns.Where(d => (d.Schema == schema)).Select(element => new
             {
                 TableName = (string)element.TableName
             }).Distinct();
@@ -104,9 +104,9 @@ namespace DatabaseCompare
             // There is no downstream Combobox to reset
 
             // Fetch new data
-            var query = db.Fields.Where(d => ((d.Schema == schema) && (d.TableName == table))).Select(element => new
+            var query = db.Columns.Where(d => ((d.Schema == schema) && (d.TableName == table))).Select(element => new
             {
-                FieldName = (string)element.FieldName
+                FieldName = (string)element.ColumnName
             }).Distinct();
 
             foreach (var s in query)

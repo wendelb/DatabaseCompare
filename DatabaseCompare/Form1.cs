@@ -22,7 +22,7 @@ namespace DatabaseCompare
             {
                 new MigrationManager();
                 this.db = new DataContext();
-                this.filter = new DisplayFilter(this.db.Fields);
+                this.filter = new DisplayFilter(this.db.Columns);
             }
             catch (Exception ex)
             {
@@ -90,7 +90,7 @@ namespace DatabaseCompare
             FieldsView.Items.Clear();
             foreach (var field in filter.applyFilter())
             {
-                string[] data = { field.DatabaseName, field.Schema, field.TableName, field.FieldName, field.DataType };
+                string[] data = { field.DatabaseName, field.Schema, field.TableName, field.ColumnName, field.DataType };
                 FieldsView.Items.Add(new ListViewItem(data));
             }
 

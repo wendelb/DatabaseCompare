@@ -67,7 +67,7 @@ namespace DatabaseCompare.RemoteDataProvider
             using (var Transaction = db.Database.BeginTransaction()) {
                 try
                 {
-                    db.Database.ExecuteSqlCommand("DELETE FROM DBSchema;");
+                    db.Database.ExecuteSqlCommand("DELETE FROM Columns;");
 
                     // Connect -> List Databases -> Filter Databases -> Load Columns for each filtered Database
                     this.Connect();

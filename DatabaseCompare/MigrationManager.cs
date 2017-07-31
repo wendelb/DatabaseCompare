@@ -78,7 +78,7 @@ namespace DatabaseCompare
         private void MigrateTo01(DataContext db)
         {
             // Create Table
-            db.Database.ExecuteSqlCommand("CREATE TABLE `DBSchema` (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `DatabaseName` TEXT NOT NULL, `Schema` TEXT NOT NULL, `TableName` TEXT NOT NULL, `FieldName` TEXT NOT NULL, `DataType` TEXT NOT NULL);");
+            db.Database.ExecuteSqlCommand("CREATE TABLE `Columns` (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `DatabaseName` TEXT NOT NULL, `Schema` TEXT NOT NULL, `TableName` TEXT NOT NULL, `ColumnName` TEXT NOT NULL, `DataType` TEXT NOT NULL);");
 
             // Update Version in Database
             db.SchemaInfo.Add(new SchemaInfo { Version = 1 });

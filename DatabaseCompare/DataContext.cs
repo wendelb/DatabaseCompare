@@ -19,7 +19,7 @@ namespace DatabaseCompare
         }
 
         public DbSet<SchemaInfo> SchemaInfo { get; set; }
-        public DbSet<DBSchema> Fields { get; set; }
+        public DbSet<Columns> Columns { get; set; }
     }
 
     [Table("SchemaInfo")]
@@ -29,15 +29,15 @@ namespace DatabaseCompare
         public int Version { get; set; }
     }
 
-    [Table("DBSchema")]
-    public class DBSchema
+    [Table("Columns")]
+    public class Columns
     {
         [Key]
         public int id { get; set; }
         public string DatabaseName { get; set; }
         public string Schema { get; set; }
         public string TableName { get; set; }
-        public string FieldName { get; set; }
+        public string ColumnName { get; set; }
         public string DataType { get; set; }
 
     }

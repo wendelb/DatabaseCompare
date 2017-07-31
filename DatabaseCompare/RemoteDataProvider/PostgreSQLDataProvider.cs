@@ -52,7 +52,7 @@ namespace DatabaseCompare.RemoteDataProvider
             client.ChangeDatabase(database);
 
             // Use a list to store the data in Memory and bulk insert it
-            List<DBSchema> list = new List<DBSchema>();
+            List<Columns> list = new List<Columns>();
             using (NpgsqlCommand command = client.CreateCommand())
             {
                 command.CommandText = @"SELECT c.table_schema, c.table_name, c.column_name, CASE WHEN character_maximum_length is null THEN c.data_type ELSE CONCAT(c.data_type, '(', c.character_maximum_length, ')') END as data_type
@@ -69,14 +69,14 @@ ORDER BY table_schema, table_name, column_name, ordinal_position";
                         // The || is short-circuit enabled!
                         if ((!this.FilterSchema) || (this.MatchSchema.Contains(reader.GetString(0))))
                         {
-                            list.Add(new DBSchema { DatabaseName = database, Schema = reader.GetString(0), TableName = reader.GetString(1), FieldName = reader.GetString(2), DataType = reader.GetString(3) });
+                            list.Add(new Columns { DatabaseName = database, Schema = reader.GetString(0), TableName = reader.GetString(1), ColumnName = reader.GetString(2), DataType = reader.GetString(3) });
                         }
                     }
                 }
             }
 
             // Now that all fetched rows are in our list, lets add them in bulk to the SQLite database
-            db.Fields.AddRange(list);
+            db.Columns.AddRange(list);
         }
     }
 }
