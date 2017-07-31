@@ -50,6 +50,8 @@ namespace DatabaseCompare.RemoteDataProvider
             // In MySQL all required information is inside the INFORMATION_SCHEMA Database
             client.ChangeDatabase("INFORMATION_SCHEMA");
 
+            // Use a list to store the data in Memory and bulk insert it
+            List<DBSchema> list = new List<DBSchema>();
             using (MySqlCommand command = client.CreateCommand())
             {
                 command.CommandText = "SELECT TABLE_NAME, COLUMN_NAME, COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = @databaseName";
@@ -59,11 +61,13 @@ namespace DatabaseCompare.RemoteDataProvider
                 {
                     while (reader.Read())
                     {
-                        db.Fields.Add(new DBSchema { DatabaseName = database, Schema = "", TableName = reader.GetString(0), FieldName = reader.GetString(1), DataType = reader.GetString(2) });
+                        list.Add(new DBSchema { DatabaseName = database, Schema = "", TableName = reader.GetString(0), FieldName = reader.GetString(1), DataType = reader.GetString(2) });
                     }
                 }
             }
 
+            // Now that all fetched rows are in our list, lets add them in bulk to the SQLite database
+            db.Fields.AddRange(list);
         }
     }
 }
