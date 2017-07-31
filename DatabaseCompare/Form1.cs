@@ -26,7 +26,7 @@ namespace DatabaseCompare
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An error occured during initialization:" + Environment.NewLine + ex.Message + Environment.NewLine + Environment.NewLine + ex.StackTrace, "Database Compare: Failed to load from remote database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("An error occured during initialization:" + Environment.NewLine + ex.Message + Environment.NewLine + Environment.NewLine + ex.StackTrace, "Database Compare: Failed to load from database", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(1);
             }
         }
