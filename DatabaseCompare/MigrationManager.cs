@@ -12,7 +12,7 @@ namespace DatabaseCompare
         /// <summary>
         /// This is the current migration. On opening a database it will be transformed to this level!
         /// </summary>
-        private const int CurrentMigration = 1;
+        private const int CurrentMigration = 2;
 
         public MigrationManager()
         {
@@ -72,17 +72,40 @@ namespace DatabaseCompare
             if (currentVersion < 1)
             {
                 MigrateTo01(db);
+                currentVersion = 1;
+            }
+
+            if (currentVersion < 2)
+            {
+                MigrateTo02(db);
+                currentVersion = 2;
             }
         }
 
         private void MigrateTo01(DataContext db)
         {
             // Create Table
-            db.Database.ExecuteSqlCommand("CREATE TABLE `Columns` (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `DatabaseName` TEXT NOT NULL, `Schema` TEXT NOT NULL, `TableName` TEXT NOT NULL, `ColumnName` TEXT NOT NULL, `DataType` TEXT NOT NULL);");
+            db.Database.ExecuteSqlCommand(@"CREATE TABLE `Columns` (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `DatabaseName` TEXT NOT NULL, `Schema` TEXT NOT NULL, `TableName` TEXT NOT NULL, `ColumnName` TEXT NOT NULL, `DataType` TEXT NOT NULL);");
 
             // Update Version in Database
             db.SchemaInfo.Add(new SchemaInfo { Version = 1 });
             db.SaveChanges();
         }
+
+        /// <summary>
+        /// Create a __MigrationHistory Table so that the Entity Framework feels happy. <b>This table will NEVER be used</b>, because Code First Migrations are not supported out-of-the-box with SQLite.
+        /// </summary>
+        /// <param name="db"></param>
+        private void MigrateTo02(DataContext db)
+        {
+            // Create Table
+            // Schema from http://forums.devart.com/viewtopic.php?p=103760
+            db.Database.ExecuteSqlCommand(@"CREATE TABLE __MigrationHistory(MigrationId varchar(150) NOT NULL, ContextKey varchar(300) NOT NULL, Model blob NOT NULL, ProductVersion varchar(32) NOT NULL, PRIMARY KEY(MigrationId, ContextKey))");
+
+            // Update Version in Database
+            db.SchemaInfo.Add(new SchemaInfo { Version = 2 });
+            db.SaveChanges();
+        }
+
     }
 }
