@@ -111,8 +111,7 @@ namespace DatabaseCompare
             try
             {
                 var DataProvider = DataProviderFactory.createDataProvider(this.db);
-                //DataPrivoder.OnMaxKnown
-                DataProvider.OnProgress = ((i, database) => { toolStripStatusLabel.Text = "Loading Columns from " + database; });
+                DataProvider.OnProgress = ((i, database) => { toolStripStatusLabel.Text = "Loading Data from " + database; });
                 DataProvider.OnSave = (() => { toolStripStatusLabel.Text = "Saving..."; });
 
                 await Task.Run(() => DataProvider.RefreshColumns());

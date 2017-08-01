@@ -67,6 +67,8 @@ namespace DatabaseCompare.RemoteDataProvider
         protected abstract List<string> ListDatabases();
 
         protected abstract void LoadColumnsFromDatabase(string database);
+        protected abstract void LoadTablesFromDatabase(string database);
+        protected abstract void LoadPKeysFromDatabase(string database);
 
         public void RefreshColumns()
         {
@@ -75,25 +77,32 @@ namespace DatabaseCompare.RemoteDataProvider
                 {
                     db.Database.ExecuteSqlCommand("DELETE FROM Columns;");
 
-                    // Connect -> List Databases -> Filter Databases -> Load Columns for each filtered Database
+                    // Connect -> List Databases -> Filter Databases -> Load Data for each filtered Database
                     this.Connect();
-
-                    List<string> Databases = this.ListDatabases();
-                    Databases = this.FilterDatabases(Databases);
-
-                    // Tell the caller, we can now predct a progress
-                    OnMaxKnown?.Invoke(Databases.Count);
-
-                    for (int i = 0; i < Databases.Count; i++)
+                    try
                     {
-                        OnProgress?.Invoke(i + 1, Databases[i]);
-                        LoadColumnsFromDatabase(Databases[i]);
+                        List<string> Databases = this.ListDatabases();
+                        Databases = this.FilterDatabases(Databases);
+
+                        // Tell the caller, we can now predct a progress
+                        OnMaxKnown?.Invoke(Databases.Count);
+
+                        for (int i = 0; i < Databases.Count; i++)
+                        {
+                            OnProgress?.Invoke(i + 1, Databases[i]);
+                            LoadColumnsFromDatabase(Databases[i]);
+                            LoadTablesFromDatabase(Databases[i]);
+                            LoadPKeysFromDatabase(Databases[i]);
+                        }
+
+                        OnSave?.Invoke();
+                        db.SaveChanges();
+                        Transaction.Commit();
                     }
-
-                    OnSave?.Invoke();
-                    db.SaveChanges();
-                    Transaction.Commit();
-
+                    finally
+                    {
+                        this.Disconnect();
+                    }
                 }
                 catch (Exception)
                 {
@@ -102,7 +111,6 @@ namespace DatabaseCompare.RemoteDataProvider
                 }
                 finally
                 {
-                    this.Disconnect();
                 }
             }
         }

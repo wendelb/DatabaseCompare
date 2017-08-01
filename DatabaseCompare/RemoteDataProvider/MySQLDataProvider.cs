@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 
 namespace DatabaseCompare.RemoteDataProvider
@@ -68,6 +69,16 @@ namespace DatabaseCompare.RemoteDataProvider
 
             // Now that all fetched rows are in our list, lets add them in bulk to the SQLite database
             db.Columns.AddRange(list);
+        }
+
+        protected override void LoadPKeysFromDatabase(string database)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void LoadTablesFromDatabase(string database)
+        {
+            throw new NotImplementedException();
         }
     }
 }
