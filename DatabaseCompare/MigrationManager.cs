@@ -12,7 +12,7 @@ namespace DatabaseCompare
         /// <summary>
         /// This is the current migration. On opening a database it will be transformed to this level!
         /// </summary>
-        private const int CurrentMigration = 2;
+        private const int CurrentMigration = 3;
 
         public MigrationManager()
         {
@@ -80,6 +80,12 @@ namespace DatabaseCompare
                 MigrateTo02(db);
                 currentVersion = 2;
             }
+
+            if (currentVersion < 3)
+            {
+                MigrateTo03(db);
+                currentVersion = 3;
+            }
         }
 
         private void MigrateTo01(DataContext db)
@@ -107,5 +113,19 @@ namespace DatabaseCompare
             db.SaveChanges();
         }
 
+        /// <summary>
+        /// Create a Table to store tables. This will be used for the <i>Table without Columns</i> feature.
+        /// </summary>
+        /// <param name="db"></param>
+        private void MigrateTo03(DataContext db)
+        {
+            // Create Table
+            db.Database.ExecuteSqlCommand(@"CREATE TABLE `Tables` (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `DatabaseName` TEXT NOT NULL, `Schema` TEXT NOT NULL, `TableName` TEXT NOT NULL);");
+
+            // Update Version in Database
+            db.SchemaInfo.Add(new SchemaInfo { Version = 3 });
+            db.SaveChanges();
+
+        }
     }
 }
