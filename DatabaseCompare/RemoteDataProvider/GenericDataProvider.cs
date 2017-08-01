@@ -58,6 +58,7 @@ namespace DatabaseCompare.RemoteDataProvider
             this.db = db;
             this.MatchDatabasesRegex = new Regex(ConfigurationManager.AppSettings["RemoteDataDatabaseRegex"]);
             this.MatchSchema = Properties.Settings.Default.RemoteDataSchemaList.Cast<string>().ToList();
+            this.FilterSchema = Properties.Settings.Default.RemoteDataFilterSchema;
         }
 
         protected abstract void Connect();
