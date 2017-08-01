@@ -110,12 +110,12 @@ namespace DatabaseCompare
             toolStripStatusLabel.Text = "Loading Databases...";
             try
             {
-                var DataPrivoder = DataProviderFactory.createDataProvider(this.db);
+                var DataProvider = DataProviderFactory.createDataProvider(this.db);
                 //DataPrivoder.OnMaxKnown
-                DataPrivoder.OnProgress = ((i, database) => { toolStripStatusLabel.Text = "Loading Columns from " + database; });
-                DataPrivoder.OnSave = (() => { toolStripStatusLabel.Text = "Saving..."; });
+                DataProvider.OnProgress = ((i, database) => { toolStripStatusLabel.Text = "Loading Columns from " + database; });
+                DataProvider.OnSave = (() => { toolStripStatusLabel.Text = "Saving..."; });
 
-                await Task.Run(() => DataPrivoder.RefreshColumns());
+                await Task.Run(() => DataProvider.RefreshColumns());
             }
             catch (Exception ex)
             {
