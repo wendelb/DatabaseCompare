@@ -157,6 +157,53 @@ GROUP BY name.nspname, class.relname, const.conname";
             // Now that all fetched rows are in our list, lets add them in bulk to the SQLite database
             db.PrimaryKeys.AddRange(list);
         }
+
+        protected override void LoadCheckConstraintsFromDatabase(string database)
+        {
+            // In PostgreSQL you have to connect to every database to read the Schema
+            client.ChangeDatabase(database);
+
+            // Use a list to store the data in Memory and bulk insert it
+            List<CheckConstraints> list = new List<CheckConstraints>();
+            using (NpgsqlCommand command = client.CreateCommand())
+            {
+                command.CommandText = @"SELECT
+  name.nspname as schema,
+  class.relname as table,
+  const.conname as constraint_name,
+  pg_get_constraintdef(const.oid, true) as constraint_definition
+FROM pg_constraint const
+INNER JOIN pg_class class on class.oid = const.conrelid
+INNER JOIN pg_namespace name on name.oid = class.relnamespace
+WHERE
+  class.relkind = 'r' -- ordinary Table
+  and const.contype = 'c' -- CHECK Constraint
+  and const.conislocal = true -- is locally defined";
+
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        // Filter for Schema-Regex (only applied if user wants it this way)
+                        // The || is short-circuit enabled!
+                        if ((!this.FilterSchema) || (this.MatchSchema.Contains(reader.GetString(0))))
+                        {
+                            list.Add(new CheckConstraints
+                            {
+                                DatabaseName = database,
+                                Schema = reader.GetString(0),
+                                TableName = reader.GetString(1),
+                                ConstraintName = reader.GetString(2),
+                                ConstraintDefinition = reader.GetString(3)
+                            });
+                        }
+                    }
+                }
+            }
+
+            // Now that all fetched rows are in our list, lets add them in bulk to the SQLite database
+            db.CheckConstraints.AddRange(list);
+        }
     }
 
 }

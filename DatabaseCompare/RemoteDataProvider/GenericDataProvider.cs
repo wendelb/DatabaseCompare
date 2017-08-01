@@ -69,6 +69,7 @@ namespace DatabaseCompare.RemoteDataProvider
         protected abstract void LoadColumnsFromDatabase(string database);
         protected abstract void LoadTablesFromDatabase(string database);
         protected abstract void LoadPKeysFromDatabase(string database);
+        protected abstract void LoadCheckConstraintsFromDatabase(string database);
 
         public void RefreshColumns()
         {
@@ -93,6 +94,7 @@ namespace DatabaseCompare.RemoteDataProvider
                             LoadColumnsFromDatabase(Databases[i]);
                             LoadTablesFromDatabase(Databases[i]);
                             LoadPKeysFromDatabase(Databases[i]);
+                            LoadCheckConstraintsFromDatabase(Databases[i]);
                         }
 
                         OnSave?.Invoke();

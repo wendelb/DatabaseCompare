@@ -12,7 +12,7 @@ namespace DatabaseCompare
         /// <summary>
         /// This is the current migration. On opening a database it will be transformed to this level!
         /// </summary>
-        private const int CurrentMigration = 4;
+        private const int CurrentMigration = 5;
 
         public MigrationManager()
         {
@@ -92,6 +92,12 @@ namespace DatabaseCompare
                 MigrateTo04(db);
                 currentVersion = 4;
             }
+
+            if (currentVersion < 5)
+            {
+                MigrateTo05(db);
+                currentVersion = 5;
+            }
         }
 
         private void MigrateTo01(DataContext db)
@@ -135,7 +141,7 @@ namespace DatabaseCompare
         }
 
         /// <summary>
-        /// Create a Table to store Promary Keys.
+        /// Create a Table to store Primary Keys.
         /// </summary>
         /// <param name="db"></param>
         private void MigrateTo04(DataContext db)
@@ -145,6 +151,21 @@ namespace DatabaseCompare
 
             // Update Version in Database
             db.SchemaInfo.Add(new SchemaInfo { Version = 4 });
+            db.SaveChanges();
+
+        }
+
+        /// <summary>
+        /// Create a Table to store Check Constraints.
+        /// </summary>
+        /// <param name="db"></param>
+        private void MigrateTo05(DataContext db)
+        {
+            // Create Table
+            db.Database.ExecuteSqlCommand(@"CREATE TABLE `CHECKConstraints` (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `DatabaseName` TEXT NOT NULL, `Schema` TEXT NOT NULL, `TableName` TEXT NOT NULL, `ConstraintName` TEXT NOT NULL, `ConstraintDefinition` TEXT NOT NULL);");
+
+            // Update Version in Database
+            db.SchemaInfo.Add(new SchemaInfo { Version = 5 });
             db.SaveChanges();
 
         }

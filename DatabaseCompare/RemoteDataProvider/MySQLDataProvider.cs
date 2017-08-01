@@ -46,6 +46,11 @@ namespace DatabaseCompare.RemoteDataProvider
             return result;
         }
 
+        protected override void LoadCheckConstraintsFromDatabase(string database)
+        {
+            throw new NotImplementedException();
+        }
+
         override protected void LoadColumnsFromDatabase(string database)
         {
             // In MySQL all required information is inside the INFORMATION_SCHEMA Database
