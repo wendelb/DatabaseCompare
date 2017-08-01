@@ -21,6 +21,7 @@ namespace DatabaseCompare
         public DbSet<SchemaInfo> SchemaInfo { get; set; }
         public DbSet<Columns> Columns { get; set; }
         public DbSet<Tables> Tables { get; set; }
+        public DbSet<PrimaryKeys> PrimaryKeys { get; set; }
     }
 
     [Table("SchemaInfo")]
@@ -50,5 +51,17 @@ namespace DatabaseCompare
         public string DatabaseName { get; set; }
         public string Schema { get; set; }
         public string TableName { get; set; }
+    }
+
+    [Table("PrimaryKeys")]
+    public class PrimaryKeys
+    {
+        [Key]
+        public int id { get; set; }
+        public string DatabaseName { get; set; }
+        public string Schema { get; set; }
+        public string TableName { get; set; }
+        public string ConstraintName { get; set; }
+        public string Columns { get; set; }
     }
 }
