@@ -47,6 +47,11 @@ namespace DatabaseCompare.RemoteDataProvider
         /// </summary>
         public Action<int, string> OnProgress { get; set; }
 
+        /// <summary>
+        /// Will be triggered, when all data has been collected an saving starts
+        /// </summary>
+        public Action OnSave { get; set; }
+
         public GenericDataProvider(DataContext db)
         {
             this.ConnectionString = ConfigurationManager.AppSettings["RemoteDataConnectionString"];
@@ -84,6 +89,7 @@ namespace DatabaseCompare.RemoteDataProvider
                         LoadColumnsFromDatabase(Databases[i]);
                     }
 
+                    OnSave?.Invoke();
                     db.SaveChanges();
                     Transaction.Commit();
 
